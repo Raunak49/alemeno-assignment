@@ -1,0 +1,27 @@
+version: '1.0'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: raunak
+      POSTGRES_PASSWORD: hello
+      POSTGRES_DB: alemeno
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node_app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://raunak:hello@postgres:5432/alemeno
+
+volumes:
+  postgres_data:
